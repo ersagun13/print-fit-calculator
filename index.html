@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A local uniform-scaling calculator for fitting a 3D-printed part to a target box." />
+    <title>Print Fit Calculator</title>
+    <link rel="stylesheet" href="src/style.css" />
+    <script type="module" src="src/app.js"></script>
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="page-heading">
+        <p class="eyebrow">A quick workshop check</p>
+        <h1>Print Fit</h1>
+        <p class="intro">Scale a part evenly until it fits the space you have. Dimensions are in millimeters.</p>
+      </header>
+
+      <div class="workspace">
+        <form id="fit-form" class="input-card" novalidate>
+          <fieldset>
+            <legend>Current part</legend>
+            <p class="section-note">Measure the outside of the part.</p>
+            <div class="dimension-grid">
+              <label class="dimension-field" for="model-x">
+                <span>Length <b>(X)</b></span>
+                <span class="input-with-unit"><input id="model-x" name="model-x" type="number" min="0" step="any" value="125" inputmode="decimal" /><i>mm</i></span>
+              </label>
+              <label class="dimension-field" for="model-y">
+                <span>Width <b>(Y)</b></span>
+                <span class="input-with-unit"><input id="model-y" name="model-y" type="number" min="0" step="any" value="80" inputmode="decimal" /><i>mm</i></span>
+              </label>
+              <label class="dimension-field" for="model-z">
+                <span>Height <b>(Z)</b></span>
+                <span class="input-with-unit"><input id="model-z" name="model-z" type="number" min="0" step="any" value="45" inputmode="decimal" /><i>mm</i></span>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Available space</legend>
+            <p class="section-note">The part must stay within all three limits.</p>
+            <div class="dimension-grid">
+              <label class="dimension-field" for="target-x">
+                <span>Length <b>(X)</b></span>
+                <span class="input-with-unit"><input id="target-x" name="target-x" type="number" min="0" step="any" value="100" inputmode="decimal" /><i>mm</i></span>
+              </label>
+              <label class="dimension-field" for="target-y">
+                <span>Width <b>(Y)</b></span>
+                <span class="input-with-unit"><input id="target-y" name="target-y" type="number" min="0" step="any" value="100" inputmode="decimal" /><i>mm</i></span>
+              </label>
+              <label class="dimension-field" for="target-z">
+                <span>Height <b>(Z)</b></span>
+                <span class="input-with-unit"><input id="target-z" name="target-z" type="number" min="0" step="any" value="50" inputmode="decimal" /><i>mm</i></span>
+              </label>
+            </div>
+          </fieldset>
+
+          <button class="calculate-button" type="submit">Calculate fit</button>
+          <p id="validation-message" class="validation-message" role="status" aria-live="polite"></p>
+        </form>
+
+        <section class="result-card" aria-labelledby="result-heading">
+          <p class="eyebrow">Uniform scale</p>
+          <h2 id="result-heading">Your fit</h2>
+          <p id="result-intro" class="result-intro">Enter your part and available-space dimensions to see the largest fit.</p>
+
+          <div id="result-details" class="result-details" hidden aria-live="polite">
+            <div class="scale-result">
+              <span>Scale to</span>
+              <output id="scale-percent">—</output>
+            </div>
+            <dl class="fit-facts">
+              <div>
+                <dt>Limiting axis</dt>
+                <dd id="limiting-axis">—</dd>
+              </div>
+              <div>
+                <dt>Fitted size</dt>
+                <dd id="fitted-size">—</dd>
+              </div>
+            </dl>
+          </div>
+
+          <p class="result-footnote">Scale is uniform and never enlarges the part. This estimates its bounding box; it does not inspect an STL mesh or account for print tolerances.</p>
+        </section>
+      </div>
+
+      <footer class="page-footer">Nothing leaves this page. The calculation runs in your browser.</footer>
+    </main>
+  </body>
+</html>
